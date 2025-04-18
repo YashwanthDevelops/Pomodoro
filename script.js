@@ -93,3 +93,15 @@ document.addEventListener('DOMContentLoaded', function() {
         focusTimeDisplay.textContent = formatTime(timeRemaining);
     });
 });
+
+
+// Update current day
+function updateCurrentDay() {
+    const today = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = today.toLocaleDateString('en-US', options);
+    document.getElementById('current-day').textContent = dateString;
+}
+
+// Initialize current day
+updateCurrentDay();
