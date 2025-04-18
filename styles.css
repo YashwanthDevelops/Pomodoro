@@ -5,6 +5,16 @@
     font-family: 'Arial', sans-serif;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: scale(1.25);
+    /* Adjust margin to compensate for the scale if needed */
+    margin: 2rem 0;
+}
+
 body {
     background-color: #111;
     color: white;
@@ -12,6 +22,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevents scrollbars */
 }
 
 .container {
