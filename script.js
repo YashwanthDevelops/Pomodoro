@@ -1,16 +1,39 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Timer durations in seconds
     const FOCUS_TIME = 25 * 60; // 25 minutes
+    const RELAX_TIME = 5 * 60;  // 5 minutes
 
     // Timer elements
     const focusTimeDisplay = document.querySelector('.timer-card .time');
     const startBtn = document.getElementById('start-btn');
     const resetBtn = document.getElementById('reset-btn');
+    const modeToggleBtn = document.getElementById('mode-toggle');
     
     // Timer states
-    let focusTimeRemaining = FOCUS_TIME;
-    let focusTimerActive = false;
-    let focusInterval;
+    let currentMode = 'focus'; // focus or relax
+    let timeRemaining = FOCUS_TIME;
+    let timerActive = false;
+    let timerInterval;
+
+    // Initialize displays
+    focusTimeDisplay.textContent = formatTime(timeRemaining);
+
+    // Mode toggle button
+    // In your mode toggle event listener
+    modeToggleBtn.addEventListener('click', function() {
+        if (timerActive) {
+            clearInterval(timerInterval);
+            timerActive = false;
+            startBtn.textContent = 'START';
+            startBtn.classList.remove('active');
+        }
+        
+        currentMode = currentMode === 'focus' ? 'relax' : 'focus';
+        modeToggleBtn.innerHTML = currentMode === 'focus' ? '☀️' : '🌙';
+        modeToggleBtn.className = `mode-toggle ${currentMode}`; // Add this line
+        timeRemaining = currentMode === 'focus' ? FOCUS_TIME : RELAX_TIME;
+        focusTimeDisplay.textContent = formatTime(timeRemaining);
+    });
 
     // Format time as MM:SS
     function formatTime(seconds) {
@@ -19,30 +42,27 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${mins}:${secs}`;
     }
 
-    // Initialize displays
-    focusTimeDisplay.textContent = formatTime(focusTimeRemaining);
-
     // Start button
     startBtn.addEventListener('click', function() {
-        if (focusTimerActive) {
+        if (timerActive) {  // Changed from focusTimerActive
             // Pause timer
-            clearInterval(focusInterval);
-            focusTimerActive = false;
+            clearInterval(timerInterval);  // Changed from focusInterval
+            timerActive = false;
             startBtn.textContent = 'START';
             startBtn.classList.remove('active');
         } else {
             // Start timer
-            focusTimerActive = true;
+            timerActive = true;
             startBtn.textContent = 'PAUSE';
             startBtn.classList.add('active');
             
-            focusInterval = setInterval(function() {
-                focusTimeRemaining--;
-                focusTimeDisplay.textContent = formatTime(focusTimeRemaining);
+            timerInterval = setInterval(function() {  // Changed from focusInterval
+                timeRemaining--;  // Changed from focusTimeRemaining
+                focusTimeDisplay.textContent = formatTime(timeRemaining);
                 
-                if (focusTimeRemaining <= 0) {
-                    clearInterval(focusInterval);
-                    focusTimerActive = false;
+                if (timeRemaining <= 0) {  // Changed from focusTimeRemaining
+                    clearInterval(timerInterval);
+                    timerActive = false;
                     startBtn.textContent = 'START';
                     startBtn.classList.remove('active');
                     
@@ -51,8 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     audio.play();
                     
                     // Reset timer
-                    focusTimeRemaining = FOCUS_TIME;
-                    focusTimeDisplay.textContent = formatTime(focusTimeRemaining);
+                    timeRemaining = currentMode === 'focus' ? FOCUS_TIME : RELAX_TIME;  // Changed to support both modes
+                    focusTimeDisplay.textContent = formatTime(timeRemaining);
                 }
             }, 1000);
         }
@@ -61,15 +81,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reset button
     resetBtn.addEventListener('click', function() {
         // Stop timer if running
-        if (focusTimerActive) {
-            clearInterval(focusInterval);
-            focusTimerActive = false;
+        if (timerActive) {
+            clearInterval(timerInterval);
+            timerActive = false;
             startBtn.textContent = 'START';
             startBtn.classList.remove('active');
         }
         
-        // Reset timer
-        focusTimeRemaining = FOCUS_TIME;
-        focusTimeDisplay.textContent = formatTime(focusTimeRemaining);
+        // Reset timer based on current mode
+        timeRemaining = currentMode === 'focus' ? FOCUS_TIME : RELAX_TIME;
+        focusTimeDisplay.textContent = formatTime(timeRemaining);
     });
 });

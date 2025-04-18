@@ -67,6 +67,39 @@ body {
     align-items: center;
     justify-content: center;
     gap: 20px;
+    position: relative;
+}
+
+.mode-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+
+.mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.mode-toggle.focus {
+    color: #ffd700;
+}
+
+.mode-toggle.relax {
+    color: #7fb3ff;
 }
 
 .timer-circle {
