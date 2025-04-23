@@ -6,6 +6,10 @@ A simple, elegant Pomodoro timer web application to help you stay focused and pr
 
 This Pomodoro Timer is a minimalist web application designed to help you implement the Pomodoro Technique - a time management method that uses a timer to break work into intervals, traditionally 25 minutes in length, separated by short breaks.
 
+## Live Demo
+
+You can try the Pomodoro Timer at: [https://yashwanthdevelops.github.io/Pomodoro/](https://yashwanthdevelops.github.io/Pomodoro/)
+
 ## Features
 
 - Clean, distraction-free interface
