@@ -66,12 +66,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     startBtn.textContent = 'START';
                     startBtn.classList.remove('active');
                     
-                    // Play notification sound
-                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
-                    audio.play();
+                    // Create and play repeating beep sounds
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
                     
-                    // Reset timer
-                    timeRemaining = currentMode === 'focus' ? FOCUS_TIME : RELAX_TIME;  // Changed to support both modes
+                    // Set up the oscillator
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                    
+                    // Start the oscillator
+                    oscillator.start();
+                    
+                    // Play beeps at precise intervals
+                    const beepTimes = [
+                        0, 0.2, 0.4,    // First set
+                        1.0, 1.2, 1.4,  // Second set
+                        2.0, 2.2, 2.4   // Third set
+                    ];
+                    
+                    beepTimes.forEach(time => {
+                        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime + time);
+                        gainNode.gain.setValueAtTime(0, audioContext.currentTime + time + 0.1);
+                    });
+                    
+                    // Stop the oscillator after all beeps
+                    setTimeout(() => {
+                        oscillator.stop();
+                    }, 3000);
+                    
+                    // Set time to zero and stop
+                    timeRemaining = 0;
                     focusTimeDisplay.textContent = formatTime(timeRemaining);
                 }
             }, 1000);
