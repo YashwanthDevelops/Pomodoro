@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Timer durations in seconds
-    const FOCUS_TIME = 1 * 1; // 25 minutes
+    const FOCUS_TIME = 25 * 60; // 25 minutes
     const RELAX_TIME = 5 * 60;  // 5 minutes
 
     // Timer elements
