@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Timer durations in seconds
-    const FOCUS_TIME = 25 * 60; // 25 minutes
+    const FOCUS_TIME = 1 * 1; // 25 minutes
     const RELAX_TIME = 5 * 60;  // 5 minutes
 
     // Timer elements
@@ -71,17 +71,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     const oscillator = audioContext.createOscillator();
                     const gainNode = audioContext.createGain();
                     
-                    // Set up the oscillator
+                    // Set up the oscillator with higher volume
                     oscillator.connect(gainNode);
                     gainNode.connect(audioContext.destination);
                     oscillator.type = 'sine';
-                    oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime); // Higher frequency for better audibility
                     gainNode.gain.setValueAtTime(0, audioContext.currentTime);
                     
                     // Start the oscillator
                     oscillator.start();
                     
-                    // Play beeps at precise intervals
+                    // Play beeps at precise intervals with higher volume
                     const beepTimes = [
                         0, 0.2, 0.4,    // First set
                         1.0, 1.2, 1.4,  // Second set
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ];
                     
                     beepTimes.forEach(time => {
-                        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime + time);
+                        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime + time); // Increased volume
                         gainNode.gain.setValueAtTime(0, audioContext.currentTime + time + 0.1);
                     });
                     
